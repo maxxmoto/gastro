@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="preload" href="static/compressed_f_5176a18833548cbb.mp4" as="video" fetchpriority="high">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
 
     <script type="application/ld+json">
@@ -473,14 +473,26 @@
         .hero {
             position: relative;
             overflow: hidden;
-            background:
-                radial-gradient(ellipse 500px 400px at 90% -20%, rgba(0,166,147,0.12) 0%, transparent 70%),
-                radial-gradient(ellipse 350px 350px at -20% 80%, rgba(201,149,74,0.08) 0%, transparent 70%),
-                radial-gradient(circle 200px at 50% 50%, rgba(0,166,147,0.03) 0%, transparent 100%);
-            background-color: var(--bg);
+            background: var(--bg);
+        }
+        .hero::before {
+            display: block !important;
+            content: ''; position: absolute; z-index: 0;
+            width: 450px; height: 450px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,166,147,0.1) 0%, rgba(0,166,147,0.04) 40%, transparent 70%);
+            top: -150px; right: -120px;
+            pointer-events: none;
         }
         .hero-left {
+            position: relative; z-index: 1;
             text-align: center;
+        }
+        .hero-left::before {
+            content: ''; position: absolute; z-index: -1;
+            width: 280px; height: 280px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,149,74,0.08) 0%, rgba(201,149,74,0.03) 40%, transparent 70%);
+            bottom: -60px; left: -100px;
+            pointer-events: none;
         }
         .hero-left h1 {
             position: relative;
@@ -494,7 +506,7 @@
             bottom: -8px; left: 50%;
             transform: translateX(-50%);
             border-radius: 2px;
-            opacity: 0.3;
+            opacity: 0.25;
         }
         .hero-left h1 {
             font-family: 'Playfair Display', Georgia, serif;
@@ -543,7 +555,8 @@
     }
     @media (max-width: 480px) {
         .hero-left h1 { font-size: 2.4rem; }
-        .hero { background: radial-gradient(ellipse 300px 250px at 90% -20%, rgba(0,166,147,0.1) 0%, transparent 70%), var(--bg); }
+        .hero::before { width: 300px; height: 300px; top: -100px; right: -80px; }
+        .hero-left::before { width: 200px; height: 200px; bottom: -40px; left: -60px; }
         .hero-tags { gap: 6px; }
         .tag { font-size: 0.75rem; padding: 5px 12px; }
         .btn { padding: 14px 24px; font-size: 0.95rem; }
@@ -577,7 +590,7 @@
 
 <section class="hero">
     <div class="container">
-        <video class="hero-bg-video" autoplay muted playsinline preload="auto" oncanplay="this.play()">
+        <video class="hero-bg-video" autoplay muted playsinline preload="none" poster="static/doctor.webp" oncanplay="this.play()">
             <source src="static/compressed_f_5176a18833548cbb.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
@@ -593,14 +606,13 @@
             </div>
             <div class="hero-right">
                 <div class="hero-video-wrap">
-                    <video autoplay muted playsinline preload="auto" style="width:100%;display:block;">
+                    <video autoplay muted playsinline preload="none" poster="static/doctor.webp" style="width:100%;display:block;">
                         <source src="static/compressed_f_5176a18833548cbb.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 <div class="container">
     <div class="hero-cards reveal">
@@ -1013,11 +1025,17 @@
 <script defer>
     (function() {
         var videos = document.querySelectorAll('.hero video, .hero-bg-video');
-        function p() { videos.forEach(function(v) { if (v) v.play().catch(function() {}); }); }
-        p();
-        var n = 0; var iv = setInterval(function() { p(); n++; if (n > 8) clearInterval(iv); }, 200);
+        window.addEventListener('load', function() {
+            videos.forEach(function(v) { if (v) { v.preload = 'auto'; v.load(); } });
+            setTimeout(function p() {
+                videos.forEach(function(v) { if (v) v.play().catch(function() {}); });
+                var n = 0; var iv = setInterval(function() { p(); n++; if (n > 6) clearInterval(iv); }, 300);
+            }, 500);
+        });
         ['touchstart','click','scroll','touchend'].forEach(function(e) {
-            document.addEventListener(e, function() { p(); }, {once:true});
+            document.addEventListener(e, function() {
+                videos.forEach(function(v) { if (v) v.play().catch(function() {}); });
+            }, {once:true});
         });
     })();
     (function() {
