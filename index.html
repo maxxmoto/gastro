@@ -478,7 +478,7 @@
         .hero-decor-1, .hero-decor-2, .hero-decor-dot, .hero-decor-dot-2, .hero-decor-dot-3, .hero-decor-plus, .hero-decor-arc { display: block; }
         .title-line { display: block; }
         .hero-decor-1 {
-            position: absolute; z-index: 0;
+            position: absolute; z-index: 1;
             width: 320px; height: 320px; border-radius: 50%;
             border: 1px solid rgba(0,166,147,0.15);
             top: -100px; right: -80px;
@@ -491,7 +491,7 @@
             top: 60px; right: 60px;
         }
         .hero-decor-2 {
-            position: absolute; z-index: 0;
+            position: absolute; z-index: 1;
             width: 200px; height: 200px; border-radius: 50%;
             border: 1px solid rgba(201,149,74,0.12);
             bottom: -60px; left: -60px;
@@ -504,41 +504,41 @@
             bottom: 40px; left: 40px;
         }
         .hero-decor-dot {
-            position: absolute; z-index: 0;
+            position: absolute; z-index: 1;
             width: 8px; height: 8px; border-radius: 50%;
-            background: var(--accent); opacity: 0.2;
+            background: var(--accent); opacity: 0.25;
             bottom: 40%; right: 20%;
             pointer-events: none;
         }
         .hero-decor-dot-2 {
-            position: absolute; z-index: 0;
+            position: absolute; z-index: 1;
             width: 5px; height: 5px; border-radius: 50%;
-            background: var(--primary); opacity: 0.15;
+            background: var(--primary); opacity: 0.2;
             top: 30%; left: 12%;
             pointer-events: none;
         }
         .hero-decor-dot-3 {
-            position: absolute; z-index: 0;
+            position: absolute; z-index: 1;
             width: 6px; height: 6px; border-radius: 50%;
-            background: var(--accent); opacity: 0.15;
+            background: var(--accent); opacity: 0.2;
             bottom: 25%; right: 35%;
             pointer-events: none;
         }
         .hero-decor-plus {
-            position: absolute; z-index: 0;
+            position: absolute; z-index: 1;
             width: 14px; height: 14px; pointer-events: none;
-            opacity: 0.1; color: var(--primary);
-            top: 18%; left: 25%; font-size: 14px; font-weight: 300;
+            opacity: 0.15; color: var(--primary);
+            top: 18%; left: 25%; font-size: 16px; font-weight: 400;
         }
         .hero-decor-arc {
-            position: absolute; z-index: 0; pointer-events: none;
+            position: absolute; z-index: 1; pointer-events: none;
             width: 120px; height: 60px;
-            border: 1px solid rgba(0,166,147,0.08);
+            border: 1px solid rgba(0,166,147,0.1);
             border-bottom: none; border-radius: 120px 120px 0 0;
             bottom: 15%; right: 10%; opacity: 0.6;
         }
         .hero-left {
-            position: relative; z-index: 1;
+            position: relative; z-index: 2;
             text-align: center;
         }
         .hero-left .title-line {
