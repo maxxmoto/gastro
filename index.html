@@ -164,7 +164,7 @@
     }
     .hero-left { grid-column: 1; }
     .hero-right { grid-column: 2; }
-    .hero-decor-1, .hero-decor-2, .hero-decor-dot, .title-line { display: none; }
+    .hero-decor-1, .hero-decor-2, .hero-decor-dot, .hero-decor-dot-2, .hero-decor-dot-3, .hero-decor-plus, .hero-decor-arc, .title-line { display: none; }
     .hero-tags { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
     .tag {
         padding: 8px 16px; background: rgba(0, 166, 147, 0.1);
@@ -475,7 +475,7 @@
             overflow: hidden;
             background: var(--bg);
         }
-        .hero-decor-1, .hero-decor-2, .hero-decor-dot { display: block; }
+        .hero-decor-1, .hero-decor-2, .hero-decor-dot, .hero-decor-dot-2, .hero-decor-dot-3, .hero-decor-plus, .hero-decor-arc { display: block; }
         .title-line { display: block; }
         .hero-decor-1 {
             position: absolute; z-index: 0;
@@ -506,9 +506,36 @@
         .hero-decor-dot {
             position: absolute; z-index: 0;
             width: 8px; height: 8px; border-radius: 50%;
-            background: var(--accent); opacity: 0.18;
+            background: var(--accent); opacity: 0.2;
             bottom: 40%; right: 20%;
             pointer-events: none;
+        }
+        .hero-decor-dot-2 {
+            position: absolute; z-index: 0;
+            width: 5px; height: 5px; border-radius: 50%;
+            background: var(--primary); opacity: 0.15;
+            top: 30%; left: 12%;
+            pointer-events: none;
+        }
+        .hero-decor-dot-3 {
+            position: absolute; z-index: 0;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent); opacity: 0.15;
+            bottom: 25%; right: 35%;
+            pointer-events: none;
+        }
+        .hero-decor-plus {
+            position: absolute; z-index: 0;
+            width: 14px; height: 14px; pointer-events: none;
+            opacity: 0.1; color: var(--primary);
+            top: 18%; left: 25%; font-size: 14px; font-weight: 300;
+        }
+        .hero-decor-arc {
+            position: absolute; z-index: 0; pointer-events: none;
+            width: 120px; height: 60px;
+            border: 1px solid rgba(0,166,147,0.08);
+            border-bottom: none; border-radius: 120px 120px 0 0;
+            bottom: 15%; right: 10%; opacity: 0.6;
         }
         .hero-left {
             position: relative; z-index: 1;
@@ -566,8 +593,9 @@
     }
     @media (max-width: 480px) {
         .hero-left h1 { font-size: 2.4rem; }
-        .hero::before { width: 300px; height: 300px; top: -100px; right: -80px; }
-        .hero-left::before { width: 200px; height: 200px; bottom: -40px; left: -60px; }
+        .hero-decor-1 { width: 220px; height: 220px; top: -70px; right: -50px; }
+        .hero-decor-2 { width: 140px; height: 140px; bottom: -40px; left: -40px; }
+        .hero-decor-arc { width: 80px; height: 40px; bottom: 10%; right: 5%; }
         .hero-tags { gap: 6px; }
         .tag { font-size: 0.75rem; padding: 5px 12px; }
         .btn { padding: 14px 24px; font-size: 0.95rem; }
@@ -607,6 +635,10 @@
         <span class="hero-decor-1"></span>
         <span class="hero-decor-2"></span>
         <span class="hero-decor-dot"></span>
+        <span class="hero-decor-dot-2"></span>
+        <span class="hero-decor-dot-3"></span>
+        <span class="hero-decor-plus">+</span>
+        <span class="hero-decor-arc"></span>
         <div class="hero-content">
             <div class="hero-left">
                 <div class="hero-tags">
