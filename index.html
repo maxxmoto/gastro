@@ -469,28 +469,32 @@
             padding-top: 0; padding-bottom: 0;
             min-height: 100vh; display: flex; align-items: center;
         }
-        .hero::before { display: none; }
+        .hero::before, .hero::after { display: none; }
         .hero {
             position: relative;
             overflow: hidden;
-        }
-        .hero::after {
-            content: ''; position: absolute; z-index: 0;
-            width: 400px; height: 400px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,166,147,0.06) 0%, transparent 70%);
-            top: -80px; right: -120px;
-            pointer-events: none;
+            background:
+                radial-gradient(ellipse 500px 400px at 90% -20%, rgba(0,166,147,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 350px 350px at -20% 80%, rgba(201,149,74,0.08) 0%, transparent 70%),
+                radial-gradient(circle 200px at 50% 50%, rgba(0,166,147,0.03) 0%, transparent 100%);
+            background-color: var(--bg);
         }
         .hero-left {
-            position: relative; z-index: 1;
             text-align: center;
         }
-        .hero-left::before {
-            content: ''; position: absolute; z-index: -1;
-            width: 200px; height: 200px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,149,74,0.04) 0%, transparent 70%);
-            bottom: -40px; left: -60px;
-            pointer-events: none;
+        .hero-left h1 {
+            position: relative;
+            display: inline-block;
+        }
+        .hero-left h1::after {
+            content: '';
+            position: absolute;
+            width: 80px; height: 2px;
+            background: var(--accent);
+            bottom: -8px; left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            opacity: 0.3;
         }
         .hero-left h1 {
             font-family: 'Playfair Display', Georgia, serif;
@@ -539,8 +543,7 @@
     }
     @media (max-width: 480px) {
         .hero-left h1 { font-size: 2.4rem; }
-        .hero::after { width: 250px; height: 250px; top: -60px; right: -80px; }
-        .hero-left::before { width: 140px; height: 140px; bottom: -30px; left: -40px; }
+        .hero { background: radial-gradient(ellipse 300px 250px at 90% -20%, rgba(0,166,147,0.1) 0%, transparent 70%), var(--bg); }
         .hero-tags { gap: 6px; }
         .tag { font-size: 0.75rem; padding: 5px 12px; }
         .btn { padding: 14px 24px; font-size: 0.95rem; }
