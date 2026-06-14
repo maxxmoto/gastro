@@ -34,7 +34,7 @@
     <meta name="theme-color" content="#00A693">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="static/f_5176a18833548cbb.mp4" as="video">
+    <link rel="preload" href="static/f_5176a18833548cbb.mp4" as="video" fetchpriority="high">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
 
     <script type="application/ld+json">
@@ -158,8 +158,11 @@
         position: relative;
     }
     .hero-content {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center;
     }
+    .hero-main { display: contents; }
+    .hero-main ~ .subtitle { grid-column: 1; }
+    .hero-main ~ .btn-order { grid-column: 1; }
     .hero-tags { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
     .tag {
         padding: 8px 16px; background: rgba(0, 166, 147, 0.1);
@@ -458,12 +461,15 @@
         .header-tg i { font-size: 1.2rem; }
         .mobile-menu-btn { display: block; font-size: 1.3rem; padding: 4px; }
         .hero { padding-top: 100px; padding-bottom: 30px; }
-        .hero-content { gap: 24px; }
-        .hero-content h1 { font-size: 2.2rem; margin-bottom: 1rem; }
-        .hero-image-wrapper { max-height: 40vh; }
-        .hero-tags { gap: 8px; }
-        .hero-tags { gap: 8px; }
-        .tag { font-size: 0.8rem; padding: 6px 12px; }
+        .hero-content { display: block; }
+        .hero-main { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
+        .hero-main h1 { flex: 1; font-size: 2rem; line-height: 1.1; margin: 0; }
+        .hero-main .hero-image-wrapper { flex: 0 0 35%; max-height: 28vh; border-radius: var(--radius-sm); }
+        .hero-main .subtitle { display: none; }
+        .hero-tags { justify-content: center; gap: 6px; margin-bottom: 16px; }
+        .tag { font-size: 0.75rem; padding: 5px 10px; }
+        .subtitle { text-align: center; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .btn-order[style] { display: block; margin: 0 auto; font-size: 1rem !important; padding: 16px 36px !important; }
         #about.about-detailed { min-height: 100vh; display: flex; align-items: center; padding: 80px 0; }
         #about.about-detailed .section-header { margin-bottom: 0; }
         .about-detailed-grid { display: flex; flex-direction: column; gap: 16px; }
@@ -498,11 +504,12 @@
         }
     }
     @media (max-width: 480px) {
-        .hero-content h1 { font-size: 1.8rem; }
-        .hero-tags { justify-content: center; }
-        .hero-image-wrapper { max-height: 35vh; }
+        .hero-main h1 { font-size: 1.6rem; }
+        .hero-main .hero-image-wrapper { flex: 0 0 32%; max-height: 24vh; }
+        .hero-tags { gap: 4px; }
+        .tag { font-size: 0.7rem; padding: 4px 8px; }
         .btn { padding: 14px 24px; font-size: 0.95rem; }
-        .btn-order[style] { padding: 14px 28px !important; font-size: 1rem !important; }
+        .btn-order[style] { padding: 12px 28px !important; font-size: 0.95rem !important; }
         .diplomas-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .process-steps { gap: 24px; }
         .step-number { width: 60px; height: 60px; font-size: 1.2rem; }
@@ -539,14 +546,16 @@
                     <span class="tag">Гастроэнтеролог</span>
                     <span class="tag">Диетолог</span>
                 </div>
-                <h1>Искусство быть,<br>а не казаться</h1>
+                <div class="hero-main">
+                    <h1>Искусство быть,<br>а не казаться</h1>
+                    <div class="hero-image-wrapper">
+                        <video autoplay muted playsinline preload="auto" style="width:100%;display:block;">
+                            <source src="static/f_5176a18833548cbb.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
                 <p class="subtitle">Помогаю разобраться в обследованиях, анализах и вопросах питания онлайн.</p>
                 <button class="btn btn-primary btn-order" style="font-size: 1.25rem; padding: 20px 48px;">Записаться на прием</button>
-            </div>
-            <div class="hero-image-wrapper">
-                <video autoplay muted playsinline preload="auto" style="width:100%;display:block;">
-                    <source src="static/f_5176a18833548cbb.mp4" type="video/mp4">
-                </video>
             </div>
         </div>
     </div>
@@ -962,17 +971,14 @@
 
 <script defer>
     (function() {
-        var heroVideo = document.querySelector('.hero-image-wrapper video');
-        if (!heroVideo) return;
-        var tries = 0;
-        function tryPlay() {
-            heroVideo.play().then(function() {}).catch(function() {
-                if (tries < 5) { tries++; setTimeout(tryPlay, 300); }
-            });
-        }
-        tryPlay();
-        document.addEventListener('touchstart', function() { heroVideo.play(); }, {once:true});
-        document.addEventListener('click', function() { heroVideo.play(); }, {once:true});
+        var v = document.querySelector('.hero-image-wrapper video');
+        if (!v) return;
+        function p() { v.play().catch(function() {}); }
+        p(); p();
+        setTimeout(p, 100); setTimeout(p, 300); setTimeout(p, 600);
+        ['touchstart','click','scroll'].forEach(function(e) {
+            document.addEventListener(e, function() { v.play(); }, {once:true});
+        });
     })();
     (function() {
         if (!localStorage.getItem('cookies_accepted')) {
