@@ -34,6 +34,7 @@
     <meta name="theme-color" content="#00A693">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="static/f_5176a18833548cbb.mp4" as="video">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
 
     <script type="application/ld+json">
@@ -123,14 +124,14 @@
 
     .header {
         position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-        padding: 20px 0;
+        padding: 24px 0;
         background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         transition: var(--transition);
     }
-    .header.scrolled { padding: 12px 0; box-shadow: var(--shadow-sm); }
+    .header.scrolled { padding: 14px 0; box-shadow: var(--shadow-sm); }
     .header .container { display: flex; justify-content: space-between; align-items: center; }
     .logo { height: 48px; border-radius: 0; }
     .nav-links { display: flex; gap: 40px; }
@@ -443,19 +444,24 @@
         h1 { font-size: 2.5rem; }
         h2 { font-size: 2rem; }
         h3 { font-size: 1.4rem; }
+        h1 br { display: none; }
         section { padding: 64px 0; }
         .container { padding: 0 16px; }
         .header .container { padding: 0 12px; }
-        .header { padding: 14px 0; }
-        .header.scrolled { padding: 8px 0; }
-        .logo { height: 34px; }
+        .header { padding: 16px 0; }
+        .header.scrolled { padding: 10px 0; }
+        .logo { height: 38px; }
         .nav-links, .header-cta { display: none; }
         .header-tg { margin-left: auto; }
         .header-tg-text { display: none; }
-        .header-tg { padding: 8px; border-radius: 50%; min-width: 36px; justify-content: center; }
-        .header-tg i { font-size: 1.1rem; }
+        .header-tg { padding: 8px; border-radius: 50%; min-width: 38px; justify-content: center; }
+        .header-tg i { font-size: 1.2rem; }
         .mobile-menu-btn { display: block; font-size: 1.3rem; padding: 4px; }
-        .hero { padding-top: 120px; padding-bottom: 40px; }
+        .hero { padding-top: 100px; padding-bottom: 30px; }
+        .hero-content { gap: 24px; }
+        .hero-content h1 { font-size: 2.2rem; margin-bottom: 1rem; }
+        .hero-image-wrapper { max-height: 40vh; }
+        .hero-tags { gap: 8px; }
         .hero-tags { gap: 8px; }
         .tag { font-size: 0.8rem; padding: 6px 12px; }
         #about.about-detailed { min-height: 100vh; display: flex; align-items: center; padding: 80px 0; }
@@ -492,8 +498,9 @@
         }
     }
     @media (max-width: 480px) {
-        h1 { font-size: 2rem; }
+        .hero-content h1 { font-size: 1.8rem; }
         .hero-tags { justify-content: center; }
+        .hero-image-wrapper { max-height: 35vh; }
         .btn { padding: 14px 24px; font-size: 0.95rem; }
         .btn-order[style] { padding: 14px 28px !important; font-size: 1rem !important; }
         .diplomas-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -537,7 +544,7 @@
                 <button class="btn btn-primary btn-order" style="font-size: 1.25rem; padding: 20px 48px;">Записаться на прием</button>
             </div>
             <div class="hero-image-wrapper">
-                <video autoplay muted playsinline preload="auto" style="width:100%;display:block;" poster="static/doctor-photo.jpg">
+                <video autoplay muted playsinline preload="auto" style="width:100%;display:block;">
                     <source src="static/f_5176a18833548cbb.mp4" type="video/mp4">
                 </video>
             </div>
@@ -566,7 +573,7 @@
     <div class="container">
         <div class="about-grid reveal">
             <div>
-                <img src="static/doctor2.png" alt="Доктор за работой" class="about-image" loading="lazy">
+                <img src="static/doctor2.png" alt="Доктор за работой" class="about-image" loading="lazy" decoding="async">
             </div>
             <div>
                 <h2>Современный подход к здоровью ЖКТ</h2>
@@ -956,20 +963,16 @@
 <script defer>
     (function() {
         var heroVideo = document.querySelector('.hero-image-wrapper video');
-        if (heroVideo) {
-            var playPromise = heroVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(function() {
-                    function playOnTouch() {
-                        heroVideo.play();
-                        document.removeEventListener('touchstart', playOnTouch);
-                        document.removeEventListener('click', playOnTouch);
-                    }
-                    document.addEventListener('touchstart', playOnTouch, {once:true});
-                    document.addEventListener('click', playOnTouch, {once:true});
-                });
-            }
+        if (!heroVideo) return;
+        var tries = 0;
+        function tryPlay() {
+            heroVideo.play().then(function() {}).catch(function() {
+                if (tries < 5) { tries++; setTimeout(tryPlay, 300); }
+            });
         }
+        tryPlay();
+        document.addEventListener('touchstart', function() { heroVideo.play(); }, {once:true});
+        document.addEventListener('click', function() { heroVideo.play(); }, {once:true});
     })();
     (function() {
         if (!localStorage.getItem('cookies_accepted')) {
