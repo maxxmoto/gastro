@@ -537,7 +537,7 @@
                 <button class="btn btn-primary btn-order" style="font-size: 1.25rem; padding: 20px 48px;">Записаться на прием</button>
             </div>
             <div class="hero-image-wrapper">
-                <video autoplay muted playsinline style="width:100%;display:block;">
+                <video autoplay muted playsinline preload="auto" style="width:100%;display:block;" poster="static/doctor-photo.jpg">
                     <source src="static/f_5176a18833548cbb.mp4" type="video/mp4">
                 </video>
             </div>
@@ -954,6 +954,23 @@
 </style>
 
 <script defer>
+    (function() {
+        var heroVideo = document.querySelector('.hero-image-wrapper video');
+        if (heroVideo) {
+            var playPromise = heroVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(function() {
+                    function playOnTouch() {
+                        heroVideo.play();
+                        document.removeEventListener('touchstart', playOnTouch);
+                        document.removeEventListener('click', playOnTouch);
+                    }
+                    document.addEventListener('touchstart', playOnTouch, {once:true});
+                    document.addEventListener('click', playOnTouch, {once:true});
+                });
+            }
+        }
+    })();
     (function() {
         if (!localStorage.getItem('cookies_accepted')) {
             var bar = document.getElementById('cookiesBar');
