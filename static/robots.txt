@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /privacy
+Disallow: /offer
+
+Sitemap: https://drgondusov.ru/static/sitemap.xml
+
+# Crawl rules
+Crawl-Delay: 10
